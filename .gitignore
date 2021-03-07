@@ -1,0 +1,16 @@
+# remove this entire directory
+Face DataSet/
+.ipynb_checkpoints/
+
+
+# remove files with .npz extension
+*.npz
+*.h5
+
+
+# removes any file with this name
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
