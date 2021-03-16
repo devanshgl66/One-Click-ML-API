@@ -9,7 +9,6 @@ from numpy import load
 from numpy import asarray
 from keras_facenet import FaceNet
 from keras.models import load_model
-import cv2;
 import numpy as np;
 import pickle;
 import requests
