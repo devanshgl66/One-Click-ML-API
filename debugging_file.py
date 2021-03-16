@@ -3,7 +3,7 @@ import os
 import numpy as np;
 import pickle
 
-url='https://ml-one-click-api.herokuapp.com/'
+url='https://ml-one-click-api.herokuapp.com/convert_to_embeddings'
 # directory='/Users/jatinkaushik/python_projects/final_year_project_ml_work/Face Dataset/train/'
 # for sub_dir in os.listdir(directory):
 # 	if(sub_dir.find('.DS_Store')!=-1):
@@ -14,7 +14,7 @@ url='https://ml-one-click-api.herokuapp.com/'
 # 			continue;
 # 		image_path=directory+sub_dir+'/'+image_name
 # 		images.append(image_path)
-images=['https://media.gettyimages.com/photos/hrithik-roshan-attends-the-iifa-2015-press-conference-held-at-grand-picture-id474961324?s=2048x2048']
+images=['https://image.shutterstock.com/shutterstock/photos/1714665613/display_1500/stock-photo-thoughtful-businessman-wearing-glasses-touching-chin-pondering-ideas-or-strategy-sitting-at-1714665613.jpg']
 res=requests.post(url,json={'images':images,'roll_no':17001001024,'class_code':'001'})
 print(res);
 
