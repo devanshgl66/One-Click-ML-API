@@ -34,10 +34,11 @@ def convert_to_embeddings():
 		class_code=data['class_code']
 		embeddings=give_embeddings(images)
 		file_name=class_code+'.p';
-		if(store_embeddings(file_name,roll_no,embeddings)==None):
+		error=store_embeddings(file_name,roll_no,embeddings)
+		if(error==None):
 			return jsonify({'error':None})
 		else:
-			return jsonify({'error':True})
+			return jsonify({'error':error})
 	except Exception as e:
 		return jsonify({'error':e});
 
@@ -77,6 +78,7 @@ def find_present_students(embeddings,file_name,students):
 		for student in students:
 			temp_dist=find_dist(embedding,dictionary[student]);
 			if(temp_dist<min_dist):
+				min_dist=temp_dist
 				roll_no=student
 		present_list.append(roll_no)
 	return present_list
@@ -123,14 +125,15 @@ def extract_faces(filename, required_size=(160, 160)):
      faces_array=[];
      if len(results)==0:
         return (False,None);
-     for pixels in results:
-     	 x1, y1, width, height = pixels['box']
-	     x1, y1 = abs(x1), abs(y1)
-	     x2, y2 = x1 + width, y1 + height
-	     face = pixels[y1:y2, x1:x2]
-	     image = Image.fromarray(face)
-	     image = image.resize(required_size)
-	     faces_array.append(asarray(image))
+     for info in results:
+     	x1, y1, width, height = info['box']
+     	x1 = abs(x1)
+     	y1 = abs(y1)
+     	x2, y2 = x1 + width, y1 + height
+     	face = pixels[y1:y2, x1:x2]
+     	image = Image.fromarray(face)
+     	image = image.resize(required_size)
+     	faces_array.append(asarray(image))
      return (True,faces_array);
 
 
@@ -149,11 +152,11 @@ def give_embeddings(image_links):
         flag,faces_array=extract_faces(image);
         if(flag):
         	for face in faces_array:
-            	embeddings_list.append(get_embedding(face));
+        		embeddings_list.append(get_embedding(face));
     return embeddings_list;
 
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True);
+    app.run(debug=False);
