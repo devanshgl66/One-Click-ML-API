@@ -12,6 +12,7 @@ from keras.models import load_model
 import cv2;
 import numpy as np;
 import pickle;
+import requests
 detector = MTCNN()
 model = FaceNet() 
 
@@ -117,8 +118,8 @@ def store_embeddings(file_name,roll_no,embeddings):
 
 
 
-def extract_faces(filename, required_size=(160, 160)):
-     image = Image.open(filename)
+def extract_faces(url, required_size=(160, 160)):
+     image = Image.open(requests.get(url, stream=True).raw)
      image = image.convert('RGB')
      pixels = asarray(image)
      results = detector.detect_faces(pixels)
