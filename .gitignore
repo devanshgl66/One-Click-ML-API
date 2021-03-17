@@ -1,6 +1,5 @@
 # remove this entire directory
 Face DataSet/
-.ipynb_checkpoints/
 
 
 # remove files with .npz extension
