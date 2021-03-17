@@ -1,5 +1,6 @@
 from flask import Flask,jsonify,request
 from os import listdir
+import os
 from os.path import isdir
 from numpy import savez_compressed
 from numpy import asarray
@@ -159,4 +160,5 @@ def give_embeddings(image_links):
 
 
 if __name__ == '__main__':
-    app.run(debug=False);
+	port = int(os.environ.get("PORT", 17995))
+	app.run(host='0.0.0.0', port=port)
