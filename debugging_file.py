@@ -16,7 +16,7 @@ url='https://ml-one-click-api.herokuapp.com/convert_to_embeddings'
 # 		images.append(image_path)
 images=['https://image.shutterstock.com/shutterstock/photos/1714665613/display_1500/stock-photo-thoughtful-businessman-wearing-glasses-touching-chin-pondering-ideas-or-strategy-sitting-at-1714665613.jpg']
 res=requests.post(url,json={'images':images,'roll_no':17001001024,'class_code':'001'})
-print(res);
+print(res.json());
 
 
 # url='http://127.0.0.1:5000/get_attendance'
