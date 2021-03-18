@@ -162,7 +162,7 @@ def give_embeddings(image_links):
 		flag,faces_array=extract_faces(image,detector);
 		print("line5");
 		if(flag):
-			pprint("line6");
+			print("line6");
 			for face_pixels in faces_array:
 				print("line15")
 				face_pixels = face_pixels.astype('float32')
