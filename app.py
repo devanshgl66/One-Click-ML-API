@@ -1,20 +1,15 @@
 from flask import Flask,jsonify,request
-from os import listdir
-import os
-from os.path import isdir
-from numpy import savez_compressed
+from os import environ
 from numpy import asarray
 from mtcnn.mtcnn import MTCNN
 from PIL import Image
-from numpy import load
 from numpy import asarray
+from numpy import linalg
 from keras_facenet import FaceNet
 from keras.models import load_model
-import numpy as np;
-import pickle;
+from pickle import load;
+from pickle import dump;
 import requests
-detector = MTCNN()
-model = FaceNet() 
 
 
 
@@ -71,7 +66,7 @@ def get_attendance():
 
 def find_present_students(embeddings,file_name,students):
 	file=open(file_name,'rb')
-	dictionary=pickle.load(file);
+	dictionary=load(file);
 	present_list=[];
 	for embedding in embeddings:
 		min_dist=1000000
@@ -89,7 +84,7 @@ def find_present_students(embeddings,file_name,students):
 def find_dist(embedding,student_embeddings):
 	min_dist=1000000
 	for single_embedding in student_embeddings:
-		temp_dist=np.linalg.norm(single_embedding-embedding)
+		temp_dist=linalg.norm(single_embedding-embedding)
 		if(temp_dist<min_dist):
 			min_dist=temp_dist
 	return min_dist
@@ -98,28 +93,28 @@ def find_dist(embedding,student_embeddings):
 
 def store_embeddings(file_name,roll_no,embeddings):
 	return None;
-	# try:
-	#     new_dict = {roll_no:embeddings}
-	#     try:
-	#         file=open(file_name, 'rb')
-	#         old_data=pickle.load(file);
-	#     except:
-	#         dictionary={};
-	#         file=open(file_name, 'wb')
-	#         pickle.dump(dictionary,file) 
-	#         file.close()
-	#     finally:
-	#         file=open(file_name, 'rb')
-	#         old_data=pickle.load(file);
-	#         new_dict.update(old_data)
-	#         file=open(file_name, 'wb')
-	#         pickle.dump(new_dict,file) 
-	# except Exception as e:
-	# 	return e;
+	try:
+	    new_dict = {roll_no:embeddings}
+	    try:
+	        file=open(file_name, 'rb')
+	        old_data=oad(file);
+	    except:
+	        dictionary={};
+	        file=open(file_name, 'wb')
+	        dump(dictionary,file) 
+	        file.close()
+	    finally:
+	        file=open(file_name, 'rb')
+	        old_data=load(file);
+	        new_dict.update(old_data)
+	        file=open(file_name, 'wb')
+	        dump(new_dict,file) 
+	except Exception as e:
+		return e;
 
 
 
-def extract_faces(url, required_size=(160, 160)):
+def extract_faces(url,detector,required_size=(160, 160)):
      image = Image.open(requests.get(url, stream=True).raw)
      image = image.convert('RGB')
      pixels = asarray(image)
@@ -140,26 +135,23 @@ def extract_faces(url, required_size=(160, 160)):
 
 
 
-def get_embedding(face_pixels):
-     face_pixels = face_pixels.astype('float32')
-     face_pixels=face_pixels.reshape(1,160,160,3);
-     yhat = model.embeddings(face_pixels)
-     return yhat[0]
-
-
-
 def give_embeddings(image_links):
-    embeddings_list=[];
-    for image in image_links:
-        flag,faces_array=extract_faces(image);
-        if(flag):
-        	for face in faces_array:
-        		embeddings_list.append(get_embedding(face));
-    return embeddings_list;
+	detector = MTCNN()
+	model = FaceNet() 
+	embeddings_list=[]
+	for image in image_links:
+		flag,faces_array=extract_faces(image,detector);
+		if(flag):
+			for face_pixels in faces_array:
+				face_pixels = face_pixels.astype('float32')
+				face_pixels=face_pixels.reshape(1,160,160,3);
+				yhat = model.embeddings(face_pixels)
+				embeddings_list.append(yhat[0]);
+	return embeddings_list;
 
 
 
 
 if __name__ == '__main__':
-	port = int(os.environ.get("PORT", 17995))
+	port = int(environ.get("PORT", 17995))
 	app.run(host='0.0.0.0', port=port)
