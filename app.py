@@ -97,24 +97,25 @@ def find_dist(embedding,student_embeddings):
 
 
 def store_embeddings(file_name,roll_no,embeddings):
-	try:
-	    new_dict = {roll_no:embeddings}
-	    try:
-	        file=open(file_name, 'rb')
-	        old_data=pickle.load(file);
-	    except:
-	        dictionary={};
-	        file=open(file_name, 'wb')
-	        pickle.dump(dictionary,file) 
-	        file.close()
-	    finally:
-	        file=open(file_name, 'rb')
-	        old_data=pickle.load(file);
-	        new_dict.update(old_data)
-	        file=open(file_name, 'wb')
-	        pickle.dump(new_dict,file) 
-	except Exception as e:
-		return e;
+	return None;
+	# try:
+	#     new_dict = {roll_no:embeddings}
+	#     try:
+	#         file=open(file_name, 'rb')
+	#         old_data=pickle.load(file);
+	#     except:
+	#         dictionary={};
+	#         file=open(file_name, 'wb')
+	#         pickle.dump(dictionary,file) 
+	#         file.close()
+	#     finally:
+	#         file=open(file_name, 'rb')
+	#         old_data=pickle.load(file);
+	#         new_dict.update(old_data)
+	#         file=open(file_name, 'wb')
+	#         pickle.dump(new_dict,file) 
+	# except Exception as e:
+	# 	return e;
 
 
 
