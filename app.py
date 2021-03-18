@@ -130,21 +130,21 @@ def extract_faces(url,detector,required_size=(160, 160)):
 		 return (False,None);
 	 print("line7");
 	 for info in results:
-	 	x1, y1, width, height = info['box']
-		print("line8");
-	 	x1 = abs(x1)
-	 	y1 = abs(y1)
-		print("line9");
-	 	x2, y2 = x1 + width, y1 + height
-		print("line10");
-	 	face = pixels[y1:y2, x1:x2]
-		print("line11");
-	 	image = Image.fromarray(face)
-		print("line12");
-	 	image = image.resize(required_size)
-		print("line13");
-	 	faces_array.append(asarray(image))
-		print("line14");
+		 x1, y1, width, height = info['box']
+		 print("line8")
+		 x1 = abs(x1)
+		 y1 = abs(y1)
+		 print("line9");
+		 x2, y2 = x1 + width, y1 + height
+		 print("line10");
+		 face = pixels[y1:y2, x1:x2]
+		 print("line11");
+		 image = Image.fromarray(face)
+		 print("line12");
+		 image = image.resize(required_size)
+		 print("line13");
+		 faces_array.append(asarray(image))
+		 print("line14");
 	 return (True,faces_array);
 
 
