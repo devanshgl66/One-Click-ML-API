@@ -19,9 +19,9 @@ res=requests.post(url,json={'images':images,'roll_no':17001001024,'class_code':'
 print(res.json());
 
 
-# url='http://127.0.0.1:5000/get_attendance'
-# students=['Jatin Laklan','Kushal Kumar Mehra','Abhishek rollno-2','ANKUSH','Sumit Solanki'];
+# url='https://ml-one-click-api.herokuapp.com/get_attendance'
+# students=['17001001024'];
 # class_code='001'
-# images=['/Users/jatinkaushik/image2.jpg']
+# images=['https://image.shutterstock.com/shutterstock/photos/1714665613/display_1500/stock-photo-thoughtful-businessman-wearing-glasses-touching-chin-pondering-ideas-or-strategy-sitting-at-1714665613.jpg']
 # res=requests.post(url,json={'images':images,'students':students,'class_code':'001'})
 # print(res.json());
