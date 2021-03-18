@@ -25,10 +25,15 @@ def home():
 def convert_to_embeddings():
 	try:
 		data=request.get_json(force=True)
+		print("line1")
 		roll_no=data['roll_no']
+		print("line2")
 		images=data['images']
+		print("line3")
 		class_code=data['class_code']
+		print("line4")
 		embeddings=give_embeddings(images)
+		print("line5")
 		file_name=class_code+'.p';
 		error=store_embeddings(file_name,roll_no,embeddings)
 		if(error==None):
