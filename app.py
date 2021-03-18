@@ -25,13 +25,9 @@ def home():
 def convert_to_embeddings():
 	try:
 		data=request.get_json(force=True)
-		print("line1")
 		roll_no=data['roll_no']
-		print("line2")
 		images=data['images']
-		print("line3")
 		class_code=data['class_code']
-		print("line4")
 		embeddings=give_embeddings(images)
 		print("line5")
 		file_name=class_code+'.p';
@@ -122,21 +118,33 @@ def store_embeddings(file_name,roll_no,embeddings):
 
 def extract_faces(url,detector,required_size=(160, 160)):
 	 image = Image.open(requests.get(url, stream=True).raw)
+	 print("line3");
 	 image = image.convert('RGB')
+	 print("line4");
 	 pixels = asarray(image)
+	 print("line5");
 	 results = detector.detect_faces(pixels)
+	 print("line6");
 	 faces_array=[];
 	 if len(results)==0:
 		 return (False,None);
+	 print("line7");
 	 for info in results:
 	 	x1, y1, width, height = info['box']
+		print("line8");
 	 	x1 = abs(x1)
 	 	y1 = abs(y1)
+		print("line9");
 	 	x2, y2 = x1 + width, y1 + height
+		print("line10");
 	 	face = pixels[y1:y2, x1:x2]
+		print("line11");
 	 	image = Image.fromarray(face)
+		print("line12");
 	 	image = image.resize(required_size)
+		print("line13");
 	 	faces_array.append(asarray(image))
+		print("line14");
 	 return (True,faces_array);
 
 
@@ -144,15 +152,23 @@ def extract_faces(url,detector,required_size=(160, 160)):
 def give_embeddings(image_links):
 	detector = MTCNN()
 	model = FaceNet() 
+	print("line1");
 	embeddings_list=[]
 	for image in image_links:
 		flag,faces_array=extract_faces(image,detector);
+		print("line2");
 		if(flag):
 			for face_pixels in faces_array:
+				print("line15")
 				face_pixels = face_pixels.astype('float32')
+				print("line16");
 				face_pixels=face_pixels.reshape(1,160,160,3);
+				print("line17");
 				yhat = model.embeddings(face_pixels)
+				print("line18");
 				embeddings_list.append(yhat[0]);
+				print("line19");
+	print("line20");
 	return embeddings_list;
 
 
