@@ -18,7 +18,7 @@ app=Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({'ndjc':'ascc'});
+	return jsonify({'home':'Welcome'});
 
 
 @app.route("/convert_to_embeddings",methods=['POST'])
@@ -34,9 +34,9 @@ def convert_to_embeddings():
 		if(error==None):
 			return jsonify({'error':None})
 		else:
-			return jsonify({'error':error})
+			return jsonify({'error':True});
 	except Exception as e:
-		return jsonify({'error':e});
+		return jsonify({'error':True});
 
 
 @app.route("/get_attendance",methods=['POST'])
@@ -57,7 +57,7 @@ def get_attendance():
 	except Exception as e:
 		return jsonify({
 			'success':False,
-			'error':e,
+			'error':True,
 			'students':[]
 			})
 
@@ -92,46 +92,45 @@ def find_dist(embedding,student_embeddings):
 
 
 def store_embeddings(file_name,roll_no,embeddings):
-	return None;
 	try:
-	    new_dict = {roll_no:embeddings}
-	    try:
-	        file=open(file_name, 'rb')
-	        old_data=oad(file);
-	    except:
-	        dictionary={};
-	        file=open(file_name, 'wb')
-	        dump(dictionary,file) 
-	        file.close()
-	    finally:
-	        file=open(file_name, 'rb')
-	        old_data=load(file);
-	        new_dict.update(old_data)
-	        file=open(file_name, 'wb')
-	        dump(new_dict,file) 
+		new_dict = {roll_no:embeddings}
+		try:
+			file=open(file_name, 'rb')
+			old_data=load(file);
+		except:
+			dictionary={};
+			file=open(file_name, 'wb')
+			dump(dictionary,file) 
+			file.close()
+		finally:
+			file=open(file_name, 'rb')
+			old_data=load(file);
+			new_dict.update(old_data)
+			file=open(file_name, 'wb')
+			dump(new_dict,file)
 	except Exception as e:
 		return e;
 
 
 
 def extract_faces(url,detector,required_size=(160, 160)):
-     image = Image.open(requests.get(url, stream=True).raw)
-     image = image.convert('RGB')
-     pixels = asarray(image)
-     results = detector.detect_faces(pixels)
-     faces_array=[];
-     if len(results)==0:
-        return (False,None);
-     for info in results:
-     	x1, y1, width, height = info['box']
-     	x1 = abs(x1)
-     	y1 = abs(y1)
-     	x2, y2 = x1 + width, y1 + height
-     	face = pixels[y1:y2, x1:x2]
-     	image = Image.fromarray(face)
-     	image = image.resize(required_size)
-     	faces_array.append(asarray(image))
-     return (True,faces_array);
+	 image = Image.open(requests.get(url, stream=True).raw)
+	 image = image.convert('RGB')
+	 pixels = asarray(image)
+	 results = detector.detect_faces(pixels)
+	 faces_array=[];
+	 if len(results)==0:
+		 return (False,None);
+	 for info in results:
+	 	x1, y1, width, height = info['box']
+	 	x1 = abs(x1)
+	 	y1 = abs(y1)
+	 	x2, y2 = x1 + width, y1 + height
+	 	face = pixels[y1:y2, x1:x2]
+	 	image = Image.fromarray(face)
+	 	image = image.resize(required_size)
+	 	faces_array.append(asarray(image))
+	 return (True,faces_array);
 
 
 
