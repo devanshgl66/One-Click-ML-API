@@ -28,6 +28,7 @@ def convert_to_embeddings():
 		roll_no=data['roll_no']
 		images=data['images']
 		class_code=data['class_code']
+		print("line4");
 		embeddings=give_embeddings(images)
 		print("line5")
 		file_name=class_code+'.p';
@@ -150,14 +151,18 @@ def extract_faces(url,detector,required_size=(160, 160)):
 
 
 def give_embeddings(image_links):
-	detector = MTCNN()
-	model = FaceNet() 
 	print("line1");
+	detector = MTCNN()
+	print("line2");
+	model = FaceNet() 
+	print("line3");
 	embeddings_list=[]
 	for image in image_links:
+		print("line4");
 		flag,faces_array=extract_faces(image,detector);
-		print("line2");
+		print("line5");
 		if(flag):
+			pprint("line6");
 			for face_pixels in faces_array:
 				print("line15")
 				face_pixels = face_pixels.astype('float32')
