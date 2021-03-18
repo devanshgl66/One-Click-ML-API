@@ -34,9 +34,10 @@ def convert_to_embeddings():
 		if(error==None):
 			return jsonify({'error':None})
 		else:
-			return jsonify({'error':True});
+			return jsonify({'error1':True});
 	except Exception as e:
-		return jsonify({'error':True});
+		print(e);
+		return jsonify({'error2':True});
 
 
 @app.route("/get_attendance",methods=['POST'])
@@ -109,6 +110,7 @@ def store_embeddings(file_name,roll_no,embeddings):
 			file=open(file_name, 'wb')
 			dump(new_dict,file)
 	except Exception as e:
+		print(e);
 		return e;
 
 
